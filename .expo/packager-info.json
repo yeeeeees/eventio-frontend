@@ -1,0 +1,9 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 4844,
+  "expoServerNgrokUrl": "https://si-ffa.spinzed.eventio.exp.direct",
+  "packagerNgrokUrl": "https://packager.si-ffa.spinzed.eventio.exp.direct",
+  "ngrokPid": 4148
+}
