@@ -22,7 +22,8 @@ Now you can choose how you can your app on your phone:
 2. Via LAN
    - Make sure that both devices are connected on the same network
    - In the browser GUI, choose the option _LAN_
-   - Click the button _Run on Android device/emulator_, Expo should start on the device.
+   - Open Expo on your phone, on the navigator bar search for _Projects_
+   - The first option should be _Scan QR Code_. Use it to scan the QR code provided in the web controller. The app should run.
   
 ## Notes
 Expo may ask you to make an account. It's a 2 second job, you don't even need to verify it.  
