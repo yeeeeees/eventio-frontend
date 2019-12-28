@@ -28,15 +28,40 @@
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "react/jsx-uses-vars": 1,
-        "react/jsx-uses-react": 1
-        
+        "react/jsx-uses-react": 1,
+        "semi": "warn",
+        "quotes": "warn",
+        "eol-last": 1,
+        "no-trailing-spaces": "warn",
+        "no-console": "warn",
+        "indent": [
+            "warn",
+            2
+        ],
+        "arrow-parens": "warn",
+        "arrow-spacing": "warn",
+        "comma-spacing": "warn",
+        "object-curly-spacing": [
+            "warn",
+            "always"
+        ],
+        "no-multiple-empty-lines": [
+            "warn",
+            {
+                "max": 1,
+                "maxEOF": 1
+            }
+        ]
     },
     "settings": {
         "import/parsers": {
-          "@typescript-eslint/parser": [".ts", ".tsx"]
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
         },
         "import/resolver": {
-          "typescript": {}
+            "typescript": {}
         }
-      }
+    }
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, Text,  View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import themes from "../styles/themes";
+import { getScreenHeight } from "../utils/screen";
 
 export default function Search() {
   return (
@@ -14,8 +15,8 @@ export default function Search() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: "100%",
+    height: getScreenHeight(),
     backgroundColor: themes.dark.darkerer,
     alignItems: "center",
     justifyContent: "flex-start",

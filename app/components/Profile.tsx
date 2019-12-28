@@ -1,14 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import themes from "../styles/themes";
+import userStore from "../stores/UserStore";
+import { AppTypes } from "..";
 
 export default function Profile() {
   // will be pulled from Flux store once it will have been set up
-  const syntheticProfileInfo = {
-    name: "Spinzed the Fox",
-    mail: "davor.najev@gmail.com",
-    picture: require("../static/images/fox.png"),
-  };
+  const syntheticProfileInfo: AppTypes.User = userStore.getUser();
 
   return (
     <View style={styles.container}>
