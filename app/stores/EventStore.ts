@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
 import dispatcher from "../dispatcher";
-import { AppTypes } from "..";
+import { GeneralTypes } from "..";
 
 class EventStore extends EventEmitter {
-  protected events: AppTypes.Event[] = [
+  protected events: GeneralTypes.Event[] = [
     {
       name: "Dump Days",
       location: "FESB",
@@ -22,7 +22,7 @@ class EventStore extends EventEmitter {
     },
   ];
 
-  public getAll = () => {
+  public getAll: () => GeneralTypes.Event[] = () => {
     return this.events;
   }
 
@@ -31,9 +31,13 @@ class EventStore extends EventEmitter {
   }
 
   public handleActions = (action) => {
-    // eslint-disable-next-line no-console
-    console.log(action);
-    return "";
+    switch (action.type) {
+      case "LOGOUT":
+        // this is an user action ikr but I'll need it here later
+        break;
+      default:
+        break;
+    }
   }
 }
 

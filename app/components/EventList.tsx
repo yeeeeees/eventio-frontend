@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableWithoutFeed
 import themes from "../styles/themes";
 import { LinearGradient } from "expo-linear-gradient";
 import { getScreenHeight } from "../utils/screen";
-import { AppTypes } from "..";
+import { GeneralTypes } from "..";
 import { StackNavigationProp } from "@react-navigation/stack";
 import eventStore from "../stores/EventStore";
 
@@ -14,12 +14,12 @@ interface EventListProps {
   // I really dont wanna fuck with this rn
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: StackNavigationProp<any, any>;
-  events: AppTypes.Event[];
-  onSelectedEvent: (event: AppTypes.Event) => void;
+  events: GeneralTypes.Event[];
+  onSelectedEvent: (event: GeneralTypes.Event) => void;
 }
 
 const EventList = (props: EventListProps) => {
-  const events: AppTypes.Event[] = eventStore.getAll() || [];
+  const events: GeneralTypes.Event[] = eventStore.getAll() || [];
 
   return (
     <View style={styles.container}>

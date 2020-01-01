@@ -1,4 +1,6 @@
-export namespace AppTypes {
+// App Types file
+
+export namespace GeneralTypes {
   export type Event = {
     name: string;
     location: string;
@@ -9,9 +11,8 @@ export namespace AppTypes {
   };
 
   export type User = {
-    name: string;
-    mail: string;
+    username: string;
+    email: string;
     picture: number;
-    isLoggedIn: boolean;
   };
 }

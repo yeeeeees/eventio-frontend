@@ -2,11 +2,12 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import themes from "../styles/themes";
 import userStore from "../stores/UserStore";
-import { AppTypes } from "..";
+import { GeneralTypes } from "..";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { logout } from "../actions/UserActions";
 
 export default function Profile() {
-  // will be pulled from Flux store once it will have been set up
-  const syntheticProfileInfo: AppTypes.User = userStore.getUser();
+  const syntheticProfileInfo: GeneralTypes.User = userStore.getUser();
 
   return (
     <View style={styles.container}>
@@ -15,14 +16,17 @@ export default function Profile() {
           <Image source={syntheticProfileInfo.picture} style={styles.profilePictureInner} />
         </View>
         <View style={styles.profileDetails}>
-          <Text style={{ fontSize: 22, color: "white" }}>{syntheticProfileInfo.name}</Text>
-          <Text style={{ fontSize: 14, color: "grey" }}>{syntheticProfileInfo.mail}</Text>
+          <Text style={{ fontSize: 22, color: "white" }}>{syntheticProfileInfo.username}</Text>
+          <Text style={{ fontSize: 14, color: "grey" }}>{syntheticProfileInfo.email}</Text>
         </View>
       </View>
-      <View>
-        <Text style={{ fontSize: 20, color: "white", padding: 10 }}>My Events</Text>
-        <Text style={{ fontSize: 20, color: "white", padding: 10 }}>Joined Events</Text>
-        <Text style={{ fontSize: 20, color: "white", padding: 10 }}>About Eventio</Text>
+      <View style={{ paddingTop: 30 }}>
+        <Text style={styles.option}>My Events</Text>
+        <Text style={styles.option}>Joined Events</Text>
+        <Text style={styles.option}>About Eventio</Text>
+        <TouchableNativeFeedback onPress={() => { logout(); }}>
+          <Text style={styles.option}>Log Out</Text>
+        </TouchableNativeFeedback>
       </View>
     </View>
   );
@@ -53,4 +57,10 @@ const styles = StyleSheet.create({
     flex: 6,
     justifyContent: "center",
   },
+  option: {
+    fontSize: 20,
+    color: "white",
+    padding: 10,
+    paddingLeft: 20
+  }
 });

@@ -13,7 +13,6 @@ const Navigator = createStackNavigator(
   },
   {
     initialRouteName: "EventList",
-
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: themes.dark.dark,

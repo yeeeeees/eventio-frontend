@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
-import themes from "../styles/themes";
+import themes from "../../styles/themes";
 
 interface NavbarIconProps {
   picture: number;
