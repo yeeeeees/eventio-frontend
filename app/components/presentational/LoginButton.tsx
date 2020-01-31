@@ -16,11 +16,11 @@ export default function LoginButton(props: LoginButtonProps) {
 
   return (
     <View style={props.style}>
-      <View style={[styles.container, background]}>
-        <TouchableNativeFeedback onPress={props.onPress} disabled={props.disabled}>
+      <TouchableNativeFeedback onPress={props.onPress} disabled={props.disabled}>
+        <View style={[styles.container, background]}>
           <Text style={styles.title}>{props.label.toUpperCase()}</Text>
-        </TouchableNativeFeedback>
-      </View>
+        </View>
+      </TouchableNativeFeedback>
     </View>
   );
 }
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 15
+    fontSize: 15,
   }
 });

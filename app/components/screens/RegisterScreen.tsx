@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import themes from "../styles/themes";
-import userStore from "../stores/UserStore";
+import themes from "../../styles/themes";
+import userStore from "../../stores/UserStore";
 import { StackNavigationProp } from "@react-navigation/stack";
-import LoginInput from "./presentational/LoginInput";
-import LoginButton from "./presentational/LoginButton";
+import LoginInput from "../presentational/LoginInput";
+import LoginButton from "../presentational/LoginButton";
 
 interface RegisterProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

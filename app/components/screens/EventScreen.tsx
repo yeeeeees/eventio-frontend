@@ -1,8 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import themes from "../styles/themes";
+import themes from "../../styles/themes";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { GeneralTypes } from "../..";
+import date from "date-and-time";
 
 interface EventProps {
   // ill sort this out later
@@ -11,15 +13,15 @@ interface EventProps {
 }
 
 export default function Event(props: EventProps) {
-  const event = props.navigation.getParam("event");
+  const event: GeneralTypes.Event = props.navigation.getParam("event");
 
   return (
     <View style={styles.container}>
-      <Image source={require("../static/images/goat.png")} style={styles.image} />
+      <Image source={require("../../static/images/goat.png")} style={styles.image} />
       <View style={{ margin: 15 }}>
         <Text style={styles.title}>{event.name}</Text>
         <Text style={styles.text}>{event.location}, {event.city}</Text>
-        <Text style={styles.text}>{event.date}, {event.time}</Text>
+        <Text style={styles.text}>{date.format(event.date, "DD-MM/YYYY, DD:mm")}</Text>
         <TouchableHighlight style={styles.button}>
           <Text style={{ fontSize: 16 }}>Join</Text>
         </TouchableHighlight>

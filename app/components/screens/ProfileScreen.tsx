@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import themes from "../styles/themes";
-import userStore from "../stores/UserStore";
-import { GeneralTypes } from "..";
+import themes from "../../styles/themes";
+import userStore from "../../stores/UserStore";
+import { GeneralTypes } from "../..";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import { logout } from "../actions/UserActions";
+import { logout } from "../../actions/UserActions";
 
 export default function Profile() {
   const syntheticProfileInfo: GeneralTypes.User = userStore.getUser();

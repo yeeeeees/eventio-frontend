@@ -1,5 +1,5 @@
-import EventList from "./EventList";
-import Event from "./Event";
+import EventListScreen from "./screens/EventListScreen";
+import EventScreen from "./screens/EventScreen";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import themes from "../styles/themes";
@@ -8,11 +8,11 @@ import { getScreenHeight } from "../utils/screen";
 
 const Navigator = createStackNavigator(
   {
-    EventList,
-    Event
+    EventListScreen,
+    EventScreen
   },
   {
-    initialRouteName: "EventList",
+    initialRouteName: "EventListScreen",
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: themes.dark.dark,

@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableWithoutFeedback } from "react-native";
-import themes from "../styles/themes";
+import themes from "../../styles/themes";
 import { LinearGradient } from "expo-linear-gradient";
-import { getScreenHeight } from "../utils/screen";
-import { GeneralTypes } from "..";
+import { getScreenHeight } from "../../utils/screen";
+import { GeneralTypes } from "../..";
 import { StackNavigationProp } from "@react-navigation/stack";
-import eventStore from "../stores/EventStore";
+import eventStore from "../../stores/EventStore";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const image = require("../static/images/goat.png");
+const image = require("../../static/images/goat.png");
 
 interface EventListProps {
   // I really dont wanna fuck with this rn
@@ -32,7 +32,7 @@ const EventList = (props: EventListProps) => {
           <View style={styles.event}>
             <ImageBackground source={image} style={{ width: "100%", height: "100%" }}>
               <TouchableWithoutFeedback onPress={() => {
-                props.navigation.navigate("Event", {
+                props.navigation.navigate("EventScreen", {
                   event: item
                 });
               }}>

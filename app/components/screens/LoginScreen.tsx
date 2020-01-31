@@ -1,13 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import themes from "../styles/themes";
-import { loginUser } from "../actions/UserActions";
-import userStore from "../stores/UserStore";
+import themes from "../../styles/themes";
+import { loginUser } from "../../actions/UserActions";
+import userStore from "../../stores/UserStore";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { GeneralTypes } from "..";
-import LoginInput from "./presentational/LoginInput";
-import LoginButton from "./presentational/LoginButton";
+import { GeneralTypes } from "../..";
+import LoginInput from "../presentational/LoginInput";
+import LoginButton from "../presentational/LoginButton";
+import { getScreenHeight } from "../../utils/screen";
 
 interface LoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +47,7 @@ export default function Login(props: LoginProps) {
     const user: GeneralTypes.User = {
       username: "Spinzed the Fox",
       email,
-      picture: require("../static/images/fox.png"),
+      picture: require("../../static/images/fox.png"),
     };
 
     loginUser(user);
@@ -65,9 +66,11 @@ export default function Login(props: LoginProps) {
       <LoginButton style={styles.submit}
         onPress={() => handlePress()} disabled={loggingIn} label={"Submit"} />
 
+      {loggingIn && <ActivityIndicator size="large" color={themes.dark.lighterer} />}
+
       <View style={{ alignItems: "center" }}>
         <Text style={{ color: "white" }}>Don't have an account?</Text>
-        <TouchableNativeFeedback onPress={() => props.navigation.navigate("Register")}>
+        <TouchableNativeFeedback onPress={() => props.navigation.navigate("RegisterScreen")}>
           <Text style={{ color: "#a8c3f0" }}>Register</Text>
         </TouchableNativeFeedback>
       </View>
@@ -77,8 +80,8 @@ export default function Login(props: LoginProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: "100%",
+    height: getScreenHeight(),
     backgroundColor: themes.dark.dark,
     alignItems: "center",
     justifyContent: "center",

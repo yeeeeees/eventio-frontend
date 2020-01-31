@@ -1,10 +1,12 @@
 import React from "react";
 import userStore from "./stores/UserStore";
-import Login from "./components/Login";
+import LoginScreen from "./components/screens/LoginScreen";
+import RegisterScreen from "./components/screens/RegisterScreen";
 import Main from "./components/Main";
-import Register from "./components/Register";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import { View } from "react-native";
+import { getScreenHeight } from "./utils/screen";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = React.useState<boolean>(() => {
@@ -19,20 +21,24 @@ export default function App() {
   }, []);
 
   if (loggedIn)
-    return <Main />;
+    return (
+      <View style={{ height: getScreenHeight() }}>
+        <Main />
+      </View>
+    );
   else
-    return <LoginScreenHandler />;
+    return <LoginScreenComponent />;
 }
 
 const Navigator = createStackNavigator(
   {
-    Login,
-    Register
+    LoginScreen,
+    RegisterScreen
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "LoginScreen",
     headerMode: "none"
   }
 );
 
-const LoginScreenHandler = createAppContainer(Navigator);
+const LoginScreenComponent = createAppContainer(Navigator);

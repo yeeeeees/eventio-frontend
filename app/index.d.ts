@@ -5,8 +5,8 @@ export namespace GeneralTypes {
     name: string;
     location: string;
     city: string;
-    date: string;
-    time: string;
+    date: Date;
+    imageUrl: string;
     id: number;
   };
 

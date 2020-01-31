@@ -8,16 +8,16 @@ class EventStore extends EventEmitter {
       name: "Dump Days",
       location: "FESB",
       city: "Split",
-      date: "13-5-2020",
-      time: "18:00",
+      date: new Date("2020-01-01T18:00:00"),
+      imageUrl: "",
       id: 1000
     },
     {
       name: "Test",
       location: "ETŠS",
       city: "Split",
-      date: "12-8-2020",
-      time: "18:00",
+      date: new Date("2020-08-12T17:00"),
+      imageUrl: "",
       id: 1001
     },
   ];
