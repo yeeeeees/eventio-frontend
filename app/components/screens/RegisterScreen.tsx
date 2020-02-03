@@ -1,10 +1,21 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import themes from "../../styles/themes";
-import userStore from "../../stores/UserStore";
 import { StackNavigationProp } from "@react-navigation/stack";
 import LoginInput from "../presentational/LoginInput";
 import LoginButton from "../presentational/LoginButton";
+import { ScrollView } from "react-native-gesture-handler";
+import { CREATE_USER } from "../../graphql/mutations";
+import { useMutation } from "@apollo/react-hooks";
+import userStore from "../../stores/UserStore";
+import bcrypt from "react-native-bcrypt";
+import validator from "validator";
+import isaac from "isaac";
+
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
 
 interface RegisterProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,28 +24,77 @@ interface RegisterProps {
 
 export default function Register(props: RegisterProps) {
   const [isRegistering, setIsRegistering] = React.useState<boolean>(false);
+  const [message, setMessage] = React.useState("");
 
+  const [name, setName] = React.useState("");
+  const [surname, setSurname] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
+  const [registerUserMut] = useMutation(CREATE_USER, {
+    onCompleted: (data) => {
+      if (data.error) {
+        setMessage("An unexpcted error has occured");
+        setIsRegistering(false);
+        return;
+      }
+
+      if (!data.createUser.success) {
+        setMessage(data.createUser.message);
+        setIsRegistering(false);
+        return;
+      }
+
+      props.navigation.goBack(); // idk if this is needed
+      userStore.setUserInfo(data.user);
+    }
+  });
+
   const handleRegister = () => {
+    setMessage("");
     setIsRegistering(true);
-    props.navigation.goBack(); // idk if this is needed
 
-    /* ---------------
-    An async request will be sent to backend in the future
-    in place of this placeholder
-    --------------- */
+    // ------ start of validation
+    if ([name, surname, username, email, password, confirmPassword].includes("")) {
+      setMessage("All fields are required");
+      setIsRegistering(false);
+      return;
+    }
 
-    const user = userStore.getUser();
+    if (password !== confirmPassword) {
+      setMessage("The entered passwords mismatch");
+      setIsRegistering(false);
+      return;
+    }
 
-    userStore.setUserInfo({
-      username: user.username,
-      email,
-      picture: user.picture
+    if (!validator.isEmail(email)) {
+      setMessage("Invalid email");
+      setIsRegistering(false);
+      return;
+    }
+    // -------- end of validation
+
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+        setMessage("Unexpected error");
+        setIsRegistering(false);
+        return;
+      }
+
+      const formData = {
+        fname: name,
+        surname,
+        username,
+        email,
+        password: hash,
+      };
+
+      // graphql request
+      registerUserMut({ variables: formData });
     });
+
   };
 
   const handleCancel = () => {
@@ -43,26 +103,43 @@ export default function Register(props: RegisterProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>REGISTER</Text>
+      <ScrollView style={{ width: "100%" }} contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>REGISTER</Text>
 
-      <LoginInput style={styles.input} onChangeText={(text) => setUsername(text)}
-        value={username} placeholder={"Username"} />
+        <LoginInput style={styles.input} onChangeText={setName}
+          value={name} placeholder={"Name"} />
 
-      <LoginInput style={styles.input} onChangeText={(text) => setEmail(text)}
-        value={email} placeholder={"Email"} />
+        <LoginInput style={styles.input} onChangeText={setSurname}
+          value={surname} placeholder={"Surname"} />
 
-      <LoginInput style={styles.input} onChangeText={(text) => setPassword(text)}
-        value={password} placeholder={"Password"} secureTextEntry />
+        <LoginInput style={styles.input} onChangeText={setUsername}
+          value={username} placeholder={"Username"} />
 
-      <LoginInput style={styles.input} onChangeText={(text) => setConfirmPassword(text)}
-        value={confirmPassword} placeholder={"Confirm Password"} secureTextEntry />
+        <LoginInput style={styles.input} onChangeText={setEmail}
+          value={email} placeholder={"Email"} />
 
-      <View style={styles.bottomButtons}>
-        <LoginButton style={styles.button} onPress={() => handleCancel()}
-          disabled={isRegistering} label={"Cancel"} invert/>
-        <LoginButton style={styles.button} onPress={() => handleRegister()}
-          disabled={isRegistering} label={"Submit"} />
-      </View>
+        <LoginInput style={styles.input} onChangeText={setPassword}
+          value={password} placeholder={"Password"} secureTextEntry />
+
+        <LoginInput style={styles.input} onChangeText={setConfirmPassword}
+          value={confirmPassword} placeholder={"Confirm Password"} secureTextEntry />
+
+        {isRegistering && <ActivityIndicator size="large" color={themes.dark.lighterer} />}
+
+        {!!message && (
+          <View style={styles.message}>
+            <Text style={styles.messageText}>{message}</Text>
+          </View>
+        )}
+
+        <View style={styles.bottomButtons}>
+          <LoginButton style={styles.button} onPress={() => handleCancel()}
+            disabled={isRegistering} label={"Cancel"} invert />
+          <LoginButton style={styles.button} onPress={() => handleRegister()}
+            disabled={isRegistering} label={"Submit"} />
+        </View>
+
+      </ScrollView>
     </View>
   );
 }
@@ -72,12 +149,16 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: themes.dark.dark,
+  },
+  contentContainer: {
+    backgroundColor: themes.dark.dark,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   title: {
     color: "#d3e2f5",
     fontSize: 34,
+    paddingTop: "10%",
     paddingBottom: "3%",
   },
   input: {
@@ -93,5 +174,18 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingHorizontal: "5%"
+  },
+  message: {
+    width: "75%",
+    minHeight: "8%",
+    backgroundColor: "#94140a",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  messageText: {
+    flex: 1,
+    color: "white",
+    padding: "5%",
   }
 });

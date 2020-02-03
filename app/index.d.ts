@@ -2,17 +2,28 @@
 
 export namespace GeneralTypes {
   export type Event = {
-    name: string;
+    uuid: number;
+    title: string;
     location: string;
-    city: string;
-    date: Date;
+    description: string;
+    organiserUuid: int;
+    organiser: string;
+    datePosted: string;
     imageUrl: string;
-    id: number;
   };
 
   export type User = {
+    uuid: number;
     username: string;
     email: string;
-    picture: number;
+    profilePic: string;
+    fname: string;
+    surname: string;
+    isVerified: boolean;
   };
+
+  export type Tokens = {
+    accessToken: string;
+    refreshToken: string;
+  }
 }

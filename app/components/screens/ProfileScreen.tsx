@@ -7,17 +7,21 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { logout } from "../../actions/UserActions";
 
 export default function Profile() {
-  const syntheticProfileInfo: GeneralTypes.User = userStore.getUser();
+  const user: GeneralTypes.User = userStore.getUser();
 
   return (
     <View style={styles.container}>
       <View style={styles.profileInfoArea}>
         <View style={styles.profilePictureOuter}>
-          <Image source={syntheticProfileInfo.picture} style={styles.profilePictureInner} />
+          <Image
+            source={user.profilePic === "default.jpg" &&
+              require("../../static/images/fox.png")
+              || user.profilePic}
+            style={styles.profilePictureInner} />
         </View>
         <View style={styles.profileDetails}>
-          <Text style={{ fontSize: 22, color: "white" }}>{syntheticProfileInfo.username}</Text>
-          <Text style={{ fontSize: 14, color: "grey" }}>{syntheticProfileInfo.email}</Text>
+          <Text style={{ fontSize: 22, color: "white" }}>{user.username}</Text>
+          <Text style={{ fontSize: 14, color: "grey" }}>{user.email}</Text>
         </View>
       </View>
       <View style={{ paddingTop: 30 }}>

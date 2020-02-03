@@ -1,10 +1,11 @@
 import dispatcher from "../dispatcher";
 import { GeneralTypes } from "..";
 
-export function loginUser(newUser: GeneralTypes.User) {
+export function loginUser(newUser: GeneralTypes.User, tokens: GeneralTypes.Tokens) {
   dispatcher.dispatch({
     type: "LOGIN",
-    user: newUser
+    user: newUser,
+    tokens
   });
 }
 

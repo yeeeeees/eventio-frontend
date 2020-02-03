@@ -7,6 +7,20 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { View } from "react-native";
 import { getScreenHeight } from "./utils/screen";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
+import bcrypt from "react-native-bcrypt";
+import isaac from "isaac";
+import { BACKEND_URI } from "./constants";
+
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
+
+const Apollo = new ApolloClient({
+  uri: BACKEND_URI
+});
 
 export default function App() {
   const [loggedIn, setLoggedIn] = React.useState<boolean>(() => {
@@ -20,14 +34,16 @@ export default function App() {
     });
   }, []);
 
-  if (loggedIn)
-    return (
-      <View style={{ height: getScreenHeight() }}>
-        <Main />
-      </View>
-    );
-  else
-    return <LoginScreenComponent />;
+  return (
+    <ApolloProvider client={Apollo}>
+      {loggedIn && (
+        <View style={{ height: getScreenHeight() }}>
+          <Main />
+        </View>
+      )}
+      {!loggedIn && <LoginScreenComponent />}
+    </ApolloProvider>
+  );
 }
 
 const Navigator = createStackNavigator(

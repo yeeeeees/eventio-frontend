@@ -4,7 +4,6 @@ import themes from "../../styles/themes";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { GeneralTypes } from "../..";
-import date from "date-and-time";
 
 interface EventProps {
   // ill sort this out later
@@ -19,9 +18,9 @@ export default function Event(props: EventProps) {
     <View style={styles.container}>
       <Image source={require("../../static/images/goat.png")} style={styles.image} />
       <View style={{ margin: 15 }}>
-        <Text style={styles.title}>{event.name}</Text>
-        <Text style={styles.text}>{event.location}, {event.city}</Text>
-        <Text style={styles.text}>{date.format(event.date, "DD-MM/YYYY, DD:mm")}</Text>
+        <Text style={styles.title}>{event.title}</Text>
+        <Text style={styles.text}>{event.location}</Text>
+        <Text style={styles.text}>{event.datePosted}</Text>
         <TouchableHighlight style={styles.button}>
           <Text style={{ fontSize: 16 }}>Join</Text>
         </TouchableHighlight>

@@ -27,7 +27,7 @@ const EventList = (props: EventListProps) => {
         style={styles.list}
         data={events}
         contentContainerStyle={{ width: "100%" }}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.uuid.toString()}
         renderItem={({ item }) => (
           <View style={styles.event}>
             <ImageBackground source={image} style={{ width: "100%", height: "100%" }}>
@@ -42,7 +42,7 @@ const EventList = (props: EventListProps) => {
                   start={[0, 0.5]}
                   end={[0, 1]}>
                   <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={styles.title}>{item.title}</Text>
                   </View>
                 </LinearGradient>
               </TouchableWithoutFeedback>

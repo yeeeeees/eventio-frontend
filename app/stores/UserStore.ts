@@ -2,14 +2,25 @@ import { EventEmitter } from "events";
 import dispatcher from "../dispatcher";
 import { GeneralTypes } from "..";
 
+const EMPTY_USER = {
+  uuid: undefined,
+  username: "",
+  email: "",
+  fname: "",
+  surname: "",
+  profilePic: undefined,
+  isVerified: undefined,
+};
+
 class UserStore extends EventEmitter {
-  protected user: GeneralTypes.User = {
-    username: "Spinzed the Fox",
-    email: "davor.najev@gmail.com",
-    picture: require("../static/images/fox.png"),
-  };
+  protected user: GeneralTypes.User = EMPTY_USER;
 
   protected loggedIn = false;
+
+  protected tokens: GeneralTypes.Tokens = {
+    accessToken: undefined,
+    refreshToken: undefined
+  }
 
   public getUser: () => GeneralTypes.User = () => {
     return this.user;
@@ -20,12 +31,13 @@ class UserStore extends EventEmitter {
   }
 
   public setUserInfo = (user: GeneralTypes.User) => {
-    this.user = {
-      username: user.username,
-      email: user.email,
-      picture: user.picture,
-    };
+    this.user = user;
     this.emit("userInfoChange");
+  }
+
+  public setTokens = (tokens: GeneralTypes.Tokens) => {
+    this.tokens = tokens;
+    this.emit("tokenChange");
   }
 
   public setLoginStatus = (status: boolean) => {
@@ -33,7 +45,7 @@ class UserStore extends EventEmitter {
     this.emit("loginStatusChange");
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // idk shall I give a type to this
   public handleActions = (action) => {
     switch (action.type) {
       case "LOGIN":
@@ -42,11 +54,7 @@ class UserStore extends EventEmitter {
         break;
       case "LOGOUT":
         this.setLoginStatus(false);
-        this.setUserInfo({
-          username: "",
-          email: "",
-          picture: undefined,
-        });
+        this.setUserInfo(EMPTY_USER);
         break;
       default:
         break;

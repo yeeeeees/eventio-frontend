@@ -9,6 +9,10 @@ import { GeneralTypes } from "../..";
 import LoginInput from "../presentational/LoginInput";
 import LoginButton from "../presentational/LoginButton";
 import { getScreenHeight } from "../../utils/screen";
+import { useMutation } from "@apollo/react-hooks";
+import { LOGIN_USER } from "../../graphql/mutations";
+import bcrypt from "react-native-bcrypt";
+import validator from "validator";
 
 interface LoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,12 +21,37 @@ interface LoginProps {
 
 export default function Login(props: LoginProps) {
   const [loggingIn, setLoggingIn] = React.useState<boolean>(false);
+  const [message, setMessage] = React.useState("");
 
   const [email, setEmail] = React.useState<string>(() => {
-    // enter email if its avialable locally
+    // enter email if its available locally
     return userStore.getUser().email || "";
   });
   const [password, setPassword] = React.useState<string>("");
+  const [loginUserMut] = useMutation(LOGIN_USER, {
+    onCompleted: (data) => {
+      if (data.error) {
+        setMessage("An unexpcted error has occured");
+        setLoggingIn(false);
+        return;
+      }
+
+      if (!data.loginUser.success) {
+        setMessage(data.loginUser.message);
+        setLoggingIn(false);
+        return;
+      }
+
+      const user: GeneralTypes.User = data.loginUser.user;
+      const tokens: GeneralTypes.Tokens = {
+        accessToken: data.loginUser.accessToken,
+        refreshToken: data.loginUser.refreshToken
+      };
+
+      setLoggingIn(false);
+      loginUser(user, tokens);
+    }
+  });
 
   React.useEffect(() => {
     const onMailChange = () => {
@@ -36,37 +65,61 @@ export default function Login(props: LoginProps) {
     };
   }, []);
 
-  const handlePress = () => {
+  const handleLogin = async () => {
+    setMessage("");
     setLoggingIn(true);
 
-    /* ---------------
-    An async request will be sent to backend in the future
-    in place of this placeholder
-    --------------- */
+    // ------- start of validation
+    if ([email, password].includes("")) {
+      setMessage("All fields are required");
+      setLoggingIn(false);
+      return;
+    }
 
-    const user: GeneralTypes.User = {
-      username: "Spinzed the Fox",
-      email,
-      picture: require("../../static/images/fox.png"),
-    };
+    if (!validator.isEmail(email)) {
+      setMessage("Invalid email");
+      setLoggingIn(false);
+      return;
+    }
+    // ------- end of validation
 
-    loginUser(user);
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+        setMessage("Unexpected error");
+        setLoggingIn(false);
+        return;
+      }
+
+      const formData = {
+        email,
+        password: hash
+      };
+
+      // graphql request
+      loginUserMut({ variables: formData });
+    });
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LOGIN</Text>
 
-      <LoginInput style={styles.input} onChangeText={(text) => setEmail(text)}
+      <LoginInput style={styles.input} onChangeText={setEmail}
         value={email} placeholder={"Email"} />
 
-      <LoginInput style={styles.input} onChangeText={(text) => setPassword(text)}
+      <LoginInput style={styles.input} onChangeText={setPassword}
         value={password} placeholder={"Password"} secureTextEntry />
 
       <LoginButton style={styles.submit}
-        onPress={() => handlePress()} disabled={loggingIn} label={"Submit"} />
+        onPress={() => handleLogin()} disabled={loggingIn} label={"Submit"} />
 
       {loggingIn && <ActivityIndicator size="large" color={themes.dark.lighterer} />}
+
+      {!!message && (
+        <View style={styles.message}>
+          <Text style={styles.messageText}>{message}</Text>
+        </View>
+      )}
 
       <View style={{ alignItems: "center" }}>
         <Text style={{ color: "white" }}>Don't have an account?</Text>
@@ -97,5 +150,20 @@ const styles = StyleSheet.create({
     width: "50%",
     paddingTop: "5%",
     paddingBottom: "5%"
+  },
+  message: {
+    width: "70%",
+    minHeight: "8%",
+    backgroundColor: "#94140a",
+    borderRadius: 5,
+    paddingTop: "6%",
+    marginBottom: "5%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  messageText: {
+    flex: 1,
+    color: "white",
+    padding: "5%",
   }
 });

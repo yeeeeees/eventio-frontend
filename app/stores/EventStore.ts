@@ -5,20 +5,24 @@ import { GeneralTypes } from "..";
 class EventStore extends EventEmitter {
   protected events: GeneralTypes.Event[] = [
     {
-      name: "Dump Days",
-      location: "FESB",
-      city: "Split",
-      date: new Date("2020-01-01T18:00:00"),
+      uuid: 1000,
+      title: "Dump Days",
+      description: "Event",
+      location: "FESB, Split",
+      organiser: "Spinzed",
+      organiserUuid: 1,
+      datePosted: "",
       imageUrl: "",
-      id: 1000
     },
     {
-      name: "Test",
-      location: "ETŠS",
-      city: "Split",
-      date: new Date("2020-08-12T17:00"),
+      uuid: 1001,
+      title: "Test",
+      description: "Event",
+      location: "ETŠS, Split",
+      organiser: "Spinzed",
+      organiserUuid: 1,
+      datePosted: "",
       imageUrl: "",
-      id: 1001
     },
   ];
 

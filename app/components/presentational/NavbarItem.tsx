@@ -12,7 +12,7 @@ export default function NavbarItem(props: NavbarIconProps) {
     <View style={styles.container}>
       <Image source={props.picture} style={{
         tintColor: props.tintColor,
-        height: "60%",
+        height: "50%",
         aspectRatio: 1
       }} />
     </View>
