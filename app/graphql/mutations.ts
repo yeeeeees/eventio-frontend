@@ -15,7 +15,6 @@ export const LOGIN_USER = gql`
         username
         fname
         surname
-        isVerified
         profilePic
         email
       }
@@ -45,7 +44,6 @@ export const CREATE_USER = gql`
         username
         fname
         surname
-        isVerified
         profilePic
         email
       }

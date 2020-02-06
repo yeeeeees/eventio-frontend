@@ -11,6 +11,7 @@ import userStore from "../../stores/UserStore";
 import bcrypt from "react-native-bcrypt";
 import validator from "validator";
 import isaac from "isaac";
+import { sha256 } from "js-sha256";
 
 bcrypt.setRandomFallback((len) => {
   const buf = new Uint8Array(len);
@@ -49,6 +50,10 @@ export default function Register(props: RegisterProps) {
 
       props.navigation.goBack(); // idk if this is needed
       userStore.setUserInfo(data.user);
+    },
+    onError: () => {
+      setMessage("An unexpected error has occured");
+      setIsRegistering(false);
     }
   });
 
@@ -76,25 +81,38 @@ export default function Register(props: RegisterProps) {
     }
     // -------- end of validation
 
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) {
-        setMessage("Unexpected error");
-        setIsRegistering(false);
-        return;
-      }
+    // bcrypt is replaced with sha256
+    // bcrypt.hash(password, 10, (err, hash) => {
+    //   if (err) {
+    //     setMessage("Unexpected error");
+    //     setIsRegistering(false);
+    //     return;
+    //   }
 
-      const formData = {
-        fname: name,
-        surname,
-        username,
-        email,
-        password: hash,
-      };
+    //   const formData = {
+    //     fname: name,
+    //     surname,
+    //     username,
+    //     email,
+    //     password: hash,
+    //   };
 
-      // graphql request
-      registerUserMut({ variables: formData });
-    });
+    //   // graphql request
+    //   registerUserMut({ variables: formData });
+    // });
 
+    const hash = sha256(password);
+
+    const formData = {
+      fname: name,
+      surname,
+      username,
+      email,
+      password: hash,
+    };
+
+    // graphql request
+    registerUserMut({ variables: formData });
   };
 
   const handleCancel = () => {
@@ -148,10 +166,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: themes.dark.dark,
+    backgroundColor: themes.dark.backgroundDark,
   },
   contentContainer: {
-    backgroundColor: themes.dark.dark,
+    backgroundColor: themes.dark.backgroundDark,
     alignItems: "center",
     justifyContent: "center"
   },

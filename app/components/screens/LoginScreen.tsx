@@ -11,8 +11,8 @@ import LoginButton from "../presentational/LoginButton";
 import { getScreenHeight } from "../../utils/screen";
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../graphql/mutations";
-import bcrypt from "react-native-bcrypt";
 import validator from "validator";
+import { sha256 } from "js-sha256";
 
 interface LoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,7 +37,7 @@ export default function Login(props: LoginProps) {
       }
 
       if (!data.loginUser.success) {
-        setMessage(data.loginUser.message);
+        setMessage(data.loginUser.message || "An unexpected error has occured");
         setLoggingIn(false);
         return;
       }
@@ -50,6 +50,10 @@ export default function Login(props: LoginProps) {
 
       setLoggingIn(false);
       loginUser(user, tokens);
+    },
+    onError: () => {
+      setMessage("An unexpcted error has occured");
+      setLoggingIn(false);
     }
   });
 
@@ -83,21 +87,31 @@ export default function Login(props: LoginProps) {
     }
     // ------- end of validation
 
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) {
-        setMessage("Unexpected error");
-        setLoggingIn(false);
-        return;
-      }
+    // bcrypt is replaced with sha256
+    // bcrypt.hash(password, 10, (err, hash) => {
+    //   if (err) {
+    //     setMessage("Unexpected error");
+    //     setLoggingIn(false);
+    //     return;
+    //   }
 
-      const formData = {
-        email,
-        password: hash
-      };
+    //   const formData = {
+    //     email,
+    //     password: hash
+    //   };
 
-      // graphql request
-      loginUserMut({ variables: formData });
-    });
+    //   // graphql request
+    //   loginUserMut({ variables: formData });
+    // });
+
+    const hash = sha256(password);
+    const formData = {
+      email,
+      password: hash
+    };
+
+    // graphql request
+    loginUserMut({ variables: formData });
   };
 
   return (
@@ -135,7 +149,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: getScreenHeight(),
-    backgroundColor: themes.dark.dark,
+    backgroundColor: themes.dark.backgroundDark,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -156,14 +170,12 @@ const styles = StyleSheet.create({
     minHeight: "8%",
     backgroundColor: "#94140a",
     borderRadius: 5,
-    paddingTop: "6%",
     marginBottom: "5%",
     alignItems: "center",
     justifyContent: "center"
   },
   messageText: {
-    flex: 1,
     color: "white",
-    padding: "5%",
+    padding: "5%"
   }
 });
