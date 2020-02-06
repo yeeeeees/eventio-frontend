@@ -13,6 +13,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../graphql/mutations";
 import validator from "validator";
 import { sha256 } from "js-sha256";
+import { salt } from "../../utils/hashing";
 
 interface LoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,7 +105,7 @@ export default function Login(props: LoginProps) {
     //   loginUserMut({ variables: formData });
     // });
 
-    const hash = sha256(password);
+    const hash = sha256(salt(password));
     const formData = {
       email,
       password: hash

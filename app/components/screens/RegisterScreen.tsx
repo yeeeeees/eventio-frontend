@@ -7,16 +7,9 @@ import LoginButton from "../presentational/LoginButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { CREATE_USER } from "../../graphql/mutations";
 import { useMutation } from "@apollo/react-hooks";
-import userStore from "../../stores/UserStore";
-import bcrypt from "react-native-bcrypt";
 import validator from "validator";
-import isaac from "isaac";
 import { sha256 } from "js-sha256";
-
-bcrypt.setRandomFallback((len) => {
-  const buf = new Uint8Array(len);
-  return buf.map(() => Math.floor(isaac.random() * 256));
-});
+import { salt } from "../../utils/hashing";
 
 interface RegisterProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,8 +41,9 @@ export default function Register(props: RegisterProps) {
         return;
       }
 
+      setIsRegistering(false);
+      // userStore.setUserInfo(data.user);
       props.navigation.goBack(); // idk if this is needed
-      userStore.setUserInfo(data.user);
     },
     onError: () => {
       setMessage("An unexpected error has occured");
@@ -101,7 +95,7 @@ export default function Register(props: RegisterProps) {
     //   registerUserMut({ variables: formData });
     // });
 
-    const hash = sha256(password);
+    const hash = sha256(salt(password));
 
     const formData = {
       fname: name,
