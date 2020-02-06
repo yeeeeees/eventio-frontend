@@ -19,7 +19,6 @@ export namespace GeneralTypes {
     profilePic: string;
     fname: string;
     surname: string;
-    isVerified: boolean;
   };
 
   export type Tokens = {

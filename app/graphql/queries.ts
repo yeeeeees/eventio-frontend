@@ -7,7 +7,6 @@ export const GET_USER = gql`
       username
       fname
       surname
-      isVerified
       profilePic
       email
       password
@@ -44,7 +43,6 @@ export const ALL_USERS = gql`
           profilePic
           fname
           surname
-          isVerified
         }
       }
     }

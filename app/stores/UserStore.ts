@@ -9,7 +9,6 @@ const EMPTY_USER = {
   fname: "",
   surname: "",
   profilePic: undefined,
-  isVerified: undefined,
 };
 
 class UserStore extends EventEmitter {
