@@ -8,7 +8,7 @@ export namespace GeneralTypes {
     description: string;
     organiserUuid: int;
     organiser: string;
-    datePosted: string;
+    datePosted: Date;
     imageUrl: string;
   };
 

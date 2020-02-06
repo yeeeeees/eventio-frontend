@@ -24,7 +24,7 @@ export default function Profile() {
           <Text style={{ fontSize: 14, color: "grey" }}>{user.email}</Text>
         </View>
       </View>
-      <View style={{ paddingTop: 30 }}>
+      <View style={{ paddingTop: 30, alignItems: "center" }}>
         <Text style={styles.option}>My Events</Text>
         <Text style={styles.option}>Joined Events</Text>
         <Text style={styles.option}>About Eventio</Text>
@@ -39,12 +39,12 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: themes.dark.darkerer,
+    backgroundColor: themes.dark.backgroundDarkerer,
   },
   profileInfoArea: {
     width: "100%",
     height: "30%",
-    backgroundColor: themes.dark.dark,
+    backgroundColor: themes.dark.backgroundDark,
     flexDirection: "row",
   },
   profilePictureOuter: {

@@ -11,7 +11,7 @@ class EventStore extends EventEmitter {
       location: "FESB, Split",
       organiser: "Spinzed",
       organiserUuid: 1,
-      datePosted: "",
+      datePosted: undefined,
       imageUrl: "",
     },
     {
@@ -21,7 +21,7 @@ class EventStore extends EventEmitter {
       location: "ETŠS, Split",
       organiser: "Spinzed",
       organiserUuid: 1,
-      datePosted: "",
+      datePosted: undefined,
       imageUrl: "",
     },
   ];

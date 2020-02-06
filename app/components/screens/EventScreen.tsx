@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import themes from "../../styles/themes";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { GeneralTypes } from "../..";
+import { getScreenHeight } from "../../utils/screen";
+import BackArrow from "../presentational/BackArrow";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface EventProps {
   // ill sort this out later
@@ -16,9 +19,17 @@ export default function Event(props: EventProps) {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../static/images/goat.png")} style={styles.image} />
+      <ImageBackground source={require("../../static/images/goat.png")} style={styles.image}>
+        <LinearGradient
+          colors={["transparent", "black"]}
+          style={{ height: "100%" }}
+          start={[0, 0.3]}
+          end={[0, 0.9]}>
+          <BackArrow style={styles.arrow} onPress={props.navigation.goBack} />
+          <Text style={styles.title}>{event.title}</Text>
+        </LinearGradient>
+      </ImageBackground>
       <View style={{ margin: 15 }}>
-        <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.text}>{event.location}</Text>
         <Text style={styles.text}>{event.datePosted}</Text>
         <TouchableHighlight style={styles.button}>
@@ -32,17 +43,18 @@ export default function Event(props: EventProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: themes.dark.darkerer,
+    backgroundColor: themes.dark.backgroundDarkerer,
   },
   image: {
     width: "100%",
-    height: "35%",
-    marginTop: "10%"
+    height: getScreenHeight() * 0.4,
   },
   title: {
     color: "white",
     fontSize: 30,
-    marginBottom: 10
+    marginTop: "auto",
+    marginBottom: 30,
+    alignSelf: "center"
   },
   text: {
     color: "#b0b0b0",
@@ -57,5 +69,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
     justifyContent: "center"
+  },
+  arrow: {
+    marginTop: 10,
+    marginLeft: 10,
+    backgroundColor: "transparent"
   }
 });

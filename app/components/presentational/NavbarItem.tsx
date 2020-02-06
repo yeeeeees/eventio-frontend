@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
-import themes from "../../styles/themes";
 
 interface NavbarIconProps {
   picture: number;
@@ -12,7 +11,7 @@ export default function NavbarItem(props: NavbarIconProps) {
     <View style={styles.container}>
       <Image source={props.picture} style={{
         tintColor: props.tintColor,
-        height: "50%",
+        height: "60%",
         aspectRatio: 1
       }} />
     </View>
@@ -22,7 +21,7 @@ export default function NavbarItem(props: NavbarIconProps) {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    backgroundColor: themes.dark.dark,
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
   }

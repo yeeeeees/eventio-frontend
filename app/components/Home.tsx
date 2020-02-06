@@ -1,5 +1,5 @@
-import EventListScreen from "./screens/EventListScreen";
 import EventScreen from "./screens/EventScreen";
+import HomeScreen from "./screens/HomeScreen";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import themes from "../styles/themes";
@@ -8,18 +8,19 @@ import { getScreenHeight } from "../utils/screen";
 
 const Navigator = createStackNavigator(
   {
-    EventListScreen,
+    HomeScreen,
     EventScreen
   },
   {
-    initialRouteName: "EventListScreen",
+    initialRouteName: "HomeScreen",
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: themes.dark.dark,
+        backgroundColor: themes.dark.backgroundDark,
         marginTop: -1 * StatusBar.currentHeight, // idk why was this necessary
         height: 0.1 * getScreenHeight()
       },
-      headerTintColor: "white"
+      headerTintColor: "white",
+      header: null
     }
   }
 );

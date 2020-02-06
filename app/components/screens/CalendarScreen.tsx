@@ -17,7 +17,7 @@ export default function CalendarMenu() {
 }
 
 const calendarTheme = {
-  calendarBackground: themes.dark.dark,
+  calendarBackground: themes.dark.backgroundDark,
   dayTextColor: "white",
   monthTextColor: "white"
 };
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   calender: {
-    backgroundColor: themes.dark.darkerer,
+    backgroundColor: themes.dark.backgroundDarkerer,
   }
 });

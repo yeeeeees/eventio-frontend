@@ -1,21 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View } from "react-native";
 import themes from "../../styles/themes";
-import { LinearGradient } from "expo-linear-gradient";
 import { getScreenHeight } from "../../utils/screen";
 import { GeneralTypes } from "../..";
 import { StackNavigationProp } from "@react-navigation/stack";
 import eventStore from "../../stores/EventStore";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const image = require("../../static/images/goat.png");
+import EventListHorizontal from "../presentational/EventListHorizontal";
 
 interface EventListProps {
   // I really dont wanna fuck with this rn
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: StackNavigationProp<any, any>;
-  events: GeneralTypes.Event[];
-  onSelectedEvent: (event: GeneralTypes.Event) => void;
 }
 
 const EventList = (props: EventListProps) => {
@@ -23,44 +18,30 @@ const EventList = (props: EventListProps) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <EventListHorizontal
         style={styles.list}
-        data={events}
-        contentContainerStyle={{ width: "100%" }}
-        keyExtractor={(item) => item.uuid.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.event}>
-            <ImageBackground source={image} style={{ width: "100%", height: "100%" }}>
-              <TouchableWithoutFeedback onPress={() => {
-                props.navigation.navigate("EventScreen", {
-                  event: item
-                });
-              }}>
-                <LinearGradient
-                  colors={["transparent", "black"]}
-                  style={{ flex: 1 }}
-                  start={[0, 0.5]}
-                  end={[0, 1]}>
-                  <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                    <Text style={styles.title}>{item.title}</Text>
-                  </View>
-                </LinearGradient>
-              </TouchableWithoutFeedback>
-            </ImageBackground>
-          </View>
-        )} />
+        events={events}
+        onEachPress={(item) =>
+          // ovo mi je radilo na prvi try :))
+          () => {
+            props.navigation.navigate("EventScreen", {
+              event: item
+            });
+          }
+        }
+      />
     </View>
   );
 };
 
-EventList.navigationOptions = {
-  header: null
-};
+// EventList.navigationOptions = {
+//   header: null
+// };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: themes.dark.darkerer,
+    height: "100%",
+    backgroundColor: themes.dark.backgroundDarkerer,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -75,7 +56,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: themes.dark.dark,
+    // backgroundColor: themes.dark.backgroundDark,
   },
   title: {
     color: "white",

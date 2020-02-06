@@ -1,6 +1,6 @@
 import React from "react";
 import Home from "./Home";
-import SearchScreen from "./screens/SearchScreen";
+import ExploreScreen from "./screens/ExploreScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NavbarItem from "./presentational/NavbarItem";
@@ -10,28 +10,29 @@ import themes from "../styles/themes";
 
 const images = {
   Home: require("../static/images/home.png"),
-  SearchScreen: require("../static/images/search.png"),
-  CalendarScreen: require("../static/images/calendar.png"),
-  ProfileScreen: require("../static/images/profile.png"),
+  Explore: require("../static/images/search.png"),
+  Calendar: require("../static/images/calendar.png"),
+  Profile: require("../static/images/profile.png"),
 };
 
 const Navigator = createBottomTabNavigator(
   {
     Home,
-    SearchScreen,
-    CalendarScreen,
-    ProfileScreen
+    Explore: ExploreScreen,
+    Calendar: CalendarScreen,
+    Profile: ProfileScreen
   },
   {
     initialRouteName: "Home",
     tabBarOptions: {
-      activeBackgroundColor: themes.dark.dark,
-      inactiveBackgroundColor: themes.dark.dark,
+      activeBackgroundColor: themes.dark.backgroundDarkerer,
+      inactiveBackgroundColor: themes.dark.backgroundDarkerer,
       activeTintColor: "white",
       inactiveTintColor: themes.dark.lighterer,
-      showLabel: false,
+      showLabel: true,
       style: {
-        borderTopWidth: 0
+        borderTopColor: themes.dark.backgroundDarker,
+        borderTopWidth: 2
       },
     },
     defaultNavigationOptions: ({ navigation }) => ({
@@ -39,7 +40,6 @@ const Navigator = createBottomTabNavigator(
         const name = navigation.state.routeName;
         return <NavbarItem picture={images[name]} tintColor={tintColor} />;
       },
-      title: null,
     })
   }
 );
