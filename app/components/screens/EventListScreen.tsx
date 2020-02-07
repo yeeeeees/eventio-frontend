@@ -1,26 +1,43 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import themes from "../../styles/themes";
 import { getScreenHeight } from "../../utils/screen";
 import { GeneralTypes } from "../..";
 import { StackNavigationProp } from "@react-navigation/stack";
-import eventStore from "../../stores/EventStore";
 import EventListHorizontal from "../presentational/EventListHorizontal";
+import ExclamationMark from "../presentational/ExclamationMark";
 
 interface EventListProps {
   // I really dont wanna fuck with this rn
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: StackNavigationProp<any, any>;
+  events: GeneralTypes.Event[];
+  emptyText?: string;
 }
 
 const EventList = (props: EventListProps) => {
-  const events: GeneralTypes.Event[] = eventStore.getAll() || [];
+  if (!props.events) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size={"large"} color={themes.dark.lighterer}/>
+      </View>
+    );
+  }
+
+  if (props.events.toString() === "") {
+    return (
+      <View style={styles.container}>
+        <ExclamationMark style={styles.exclMark}/>
+        <Text style={styles.emptyText}>{props.emptyText || "This seems to be empty"}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <EventListHorizontal
         style={styles.list}
-        events={events}
+        events={props.events}
         onEachPress={(item) =>
           // ovo mi je radilo na prvi try :))
           () => {
@@ -65,6 +82,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  loading: {
+    flex: 1,
+    height: "100%",
+    backgroundColor: "transparent",
+    paddingTop: "55%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyText: {
+    maxWidth: "65%",
+    color: themes.dark.light,
+    textAlign: "center",
+  },
+  exclMark: {
+    marginBottom: 10
+  }
 });
 
 export default EventList;

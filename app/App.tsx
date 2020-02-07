@@ -5,8 +5,6 @@ import RegisterScreen from "./components/screens/RegisterScreen";
 import Main from "./components/Main";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import { View } from "react-native";
-import { getScreenHeight } from "./utils/screen";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import bcrypt from "react-native-bcrypt";
@@ -30,17 +28,14 @@ export default function App() {
   // dayum son I love hooks
   React.useEffect(() => {
     userStore.on("loginStatusChange", () => {
+      // console.log(userStore.getUser());
       setLoggedIn(userStore.isLoggedIn());
     });
   }, []);
 
   return (
     <ApolloProvider client={Apollo}>
-      {loggedIn && (
-        <View style={{ height: getScreenHeight() }}>
-          <Main />
-        </View>
-      )}
+      {loggedIn && <Main />}
       {!loggedIn && <LoginScreenComponent />}
     </ApolloProvider>
   );

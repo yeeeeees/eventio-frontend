@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   profilePictureOuter: {
-    flex: 4,
+    flex: 5,
     alignItems: "center",
     justifyContent: "center",
   },

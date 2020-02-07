@@ -27,7 +27,7 @@ const Navigator = createBottomTabNavigator(
     tabBarOptions: {
       activeBackgroundColor: themes.dark.backgroundDarkerer,
       inactiveBackgroundColor: themes.dark.backgroundDarkerer,
-      activeTintColor: "white",
+      activeTintColor: themes.dark.accentLight,
       inactiveTintColor: themes.dark.lighterer,
       showLabel: true,
       style: {

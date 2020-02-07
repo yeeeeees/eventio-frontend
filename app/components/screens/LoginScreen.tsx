@@ -26,9 +26,9 @@ export default function Login(props: LoginProps) {
 
   const [email, setEmail] = React.useState<string>(() => {
     // enter email if its available locally
-    return userStore.getUser().email || "";
+    return userStore.getUser().email || "lol@gmail.com";
   });
-  const [password, setPassword] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("test123");
   const [loginUserMut] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
       if (data.error) {

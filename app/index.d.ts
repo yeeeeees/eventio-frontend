@@ -9,7 +9,7 @@ export namespace GeneralTypes {
     organiserUuid: int;
     organiser: string;
     datePosted: Date;
-    imageUrl: string;
+    imageUrl?: string;
   };
 
   export type User = {

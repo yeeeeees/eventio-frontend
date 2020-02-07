@@ -14,11 +14,50 @@ export const GET_USER = gql`
   }
 `;
 
-// export const GET_USER_EVENTS = gql`
-//   query user(uuid: Int, username: String) {
-//     // wip
-//   }
-// `;
+export const GET_USER_EVENTS = gql`
+  query GetEvents($uuid: Int, $username: String) {
+    user(uuid: $uuid, username: $username) {
+      createdEvents {
+        edges {
+          node {
+            uuid
+            title
+            datePosted
+            eventThumbnail
+            location
+            description
+            organizerUuid
+            organizer {
+              uuid
+              username
+              fname
+              surname
+            }
+          }
+        }
+      }
+      joinedEvents {
+        edges {
+          node {
+            uuid
+            title
+            datePosted
+            eventThumbnail
+            location
+            description
+            organizerUuid
+            organizer {
+              uuid
+              username
+              fname
+              surname
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export const ALL_USERS = gql`
   query AllUsers(
@@ -51,11 +90,11 @@ export const ALL_USERS = gql`
 
 export const ALL_EVENTS = gql`
     query AllEvents(
-      sort: [EventSortEnum]
-      before: String
-      after: String
-      first: Int
-      last: Int
+      $sort: [EventSortEnum]
+      $before: String
+      $after: String
+      $first: Int
+      $last: Int
     ) {
       uuid
       title

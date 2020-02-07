@@ -45,15 +45,16 @@ class UserStore extends EventEmitter {
   }
 
   // idk shall I give a type to this
-  public handleActions = (action) => {
+  public handleActions = async (action) => {
     switch (action.type) {
       case "LOGIN":
+        await this.setUserInfo(action.user);
+        // this line below MUST remain last
         this.setLoginStatus(true);
-        this.setUserInfo(action.user);
         break;
       case "LOGOUT":
+        await this.setUserInfo(EMPTY_USER);
         this.setLoginStatus(false);
-        this.setUserInfo(EMPTY_USER);
         break;
       default:
         break;
