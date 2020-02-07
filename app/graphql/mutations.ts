@@ -53,7 +53,7 @@ export const CREATE_USER = gql`
 
 export const DELETE_USER = gql`
   mutation DeleteUser($uuid: Int!) {
-    DeleteUser (
+    deleteUser (
       uuid: $uuid
     ) {
       success
@@ -62,3 +62,13 @@ export const DELETE_USER = gql`
   }
 `;
 
+export const JOIN_EVENT = gql`
+  mutation JoinEvent($eventUuid: Int!) {
+    joinEvent (
+      eventUuid: $eventUuid
+    ) {
+      success
+      message
+    }
+  }
+`;

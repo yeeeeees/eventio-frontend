@@ -7,6 +7,8 @@ import { GeneralTypes } from "../..";
 import { getScreenHeight } from "../../utils/screen";
 import BackArrow from "../presentational/BackArrow";
 import { LinearGradient } from "expo-linear-gradient";
+import { useMutation } from "@apollo/react-hooks";
+import { JOIN_EVENT } from "../../graphql/mutations";
 
 interface EventProps {
   // ill sort this out later
@@ -16,6 +18,11 @@ interface EventProps {
 
 export default function Event(props: EventProps) {
   const event: GeneralTypes.Event = props.navigation.getParam("event");
+  const [joinEvent] = useMutation(JOIN_EVENT);
+
+  const handlePress = () => {
+    joinEvent({ variables: { eventUuid:  event.uuid } });
+  };
 
   return (
     <View style={styles.container}>
@@ -30,10 +37,10 @@ export default function Event(props: EventProps) {
         </LinearGradient>
       </ImageBackground>
       <View style={{ margin: 15 }}>
-        <Text style={styles.text}>{event.location}</Text>
-        <Text style={styles.text}>{event.datePosted}</Text>
+        <Text style={styles.text}>{event.location || "N/A"}</Text>
+        <Text style={styles.text}>{event.datePosted || "N/A"}}</Text>
         <TouchableHighlight style={styles.button}>
-          <Text style={{ fontSize: 16 }}>Join</Text>
+          <Text style={{ fontSize: 16 }} onPress={handlePress}>Join</Text>
         </TouchableHighlight>
       </View>
     </View>

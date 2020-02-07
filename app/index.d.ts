@@ -6,10 +6,11 @@ export namespace GeneralTypes {
     title: string;
     location: string;
     description: string;
-    organiserUuid: int;
-    organiser: string;
+    organizerUuid: int;
+    organizer: User;
     datePosted: Date;
-    imageUrl?: string;
+    joinedUsers: User[];
+    eventThumbnail?: string;
   };
 
   export type User = {

@@ -26,13 +26,13 @@ export default function Login(props: LoginProps) {
 
   const [email, setEmail] = React.useState<string>(() => {
     // enter email if its available locally
-    return userStore.getUser().email || "lol@gmail.com";
+    return userStore.getUser().email || "";
   });
-  const [password, setPassword] = React.useState<string>("test123");
+  const [password, setPassword] = React.useState<string>("");
   const [loginUserMut] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
       if (data.error) {
-        setMessage("An unexpcted error has occured");
+        setMessage("An unexpected error has occured");
         setLoggingIn(false);
         return;
       }
@@ -53,7 +53,7 @@ export default function Login(props: LoginProps) {
       loginUser(user, tokens);
     },
     onError: () => {
-      setMessage("An unexpcted error has occured");
+      setMessage("An unexpected error has occured");
       setLoggingIn(false);
     }
   });
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     color: "white",
-    padding: "5%"
+    padding: "5%",
+    textAlign: "center"
   }
 });

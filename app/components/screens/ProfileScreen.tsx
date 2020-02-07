@@ -15,7 +15,7 @@ export default function Profile() {
         <View style={styles.profilePictureOuter}>
           <Image
             source={user.profilePic === "default.jpg" &&
-              require("../../static/images/fox.png")
+              require("../../static/images/default.png")
               || user.profilePic}
             style={styles.profilePictureInner} />
         </View>
