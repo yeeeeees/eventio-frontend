@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { getScreenHeight } from "../../utils/screen";
 
 interface EventListHorizontalProps {
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   events: GeneralTypes.Event[];
   onEachPress: (item: GeneralTypes.Event) => () => void;
 }

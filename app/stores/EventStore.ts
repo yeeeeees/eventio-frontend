@@ -2,26 +2,28 @@ import { EventEmitter } from "events";
 import dispatcher from "../dispatcher";
 import { GeneralTypes } from "..";
 
-const DUMMY_DATA = [
+const DUMMY_DATA: GeneralTypes.Event[] = [
   {
     uuid: 1000,
     title: "Dump Days",
     description: "Event",
     location: "FESB, Split",
-    organiser: "Spinzed",
-    organiserUuid: 1,
+    organizer: undefined,
+    organizerUuid: 1,
     datePosted: undefined,
-    imageUrl: "",
+    joinedUsers: [],
+    eventThumbnail: "",
   },
   {
     uuid: 1001,
     title: "Test",
     description: "Event",
     location: "ETŠS, Split",
-    organiser: "Spinzed",
-    organiserUuid: 1,
+    organizer: undefined,
+    organizerUuid: 1,
     datePosted: undefined,
-    imageUrl: "",
+    joinedUsers: [],
+    eventThumbnail: "",
   },
 ];
 
