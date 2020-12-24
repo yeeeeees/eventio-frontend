@@ -12,7 +12,7 @@
     "@react-native-community/viewpager": "^3.3.0",
     "@react-navigation/stack": "^5.0.0-alpha.37",
     "apollo-boost": "^0.4.7",
-    "date-and-time": "^0.12.0",
+    "date-and-time": "^0.14.2",
     "events": "^3.0.0",
     "expo": "~36.0.0",
     "expo-linear-gradient": "^8.0.0",
